@@ -27,9 +27,11 @@ export class OidcSecuritySilentRenew {
                 observer.complete();
             };
             sessionIframe.addEventListener('load', onLoadHandler);
+            sessionIframe.addEventListener('error', onLoadHandler);
             sessionIframe.src = url;
             return () => {
                 sessionIframe.removeEventListener('load', onLoadHandler);
+                sessionIframe.removeEventListener('error', onLoadHandler);
             };
         });
     }
