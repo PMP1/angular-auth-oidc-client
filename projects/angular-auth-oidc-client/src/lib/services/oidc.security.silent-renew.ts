@@ -23,6 +23,7 @@ export class OidcSecuritySilentRenew {
         return new Observable<void>(observer => {
             const onLoadHandler = () => {
                 sessionIframe.removeEventListener('load', onLoadHandler);
+                sessionIframe.removeEventListener('error', onLoadHandler);
                 observer.next(undefined);
                 observer.complete();
             };
