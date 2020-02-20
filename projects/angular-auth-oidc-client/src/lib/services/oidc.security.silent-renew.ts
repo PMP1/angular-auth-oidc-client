@@ -23,16 +23,22 @@ export class OidcSecuritySilentRenew {
         return new Observable<void>(observer => {
             const onLoadHandler = () => {
                 sessionIframe.removeEventListener('load', onLoadHandler);
-                sessionIframe.removeEventListener('error', onLoadHandler);
+                observer.next(undefined);
+                observer.complete();
+            };
+            const onErrorHandler = (e) => {
+                sessionIframe.removeEventListener('error', onErrorHandler);
+                console.log('error');
+                console.log(e)
                 observer.next(undefined);
                 observer.complete();
             };
             sessionIframe.addEventListener('load', onLoadHandler);
-            sessionIframe.addEventListener('error', onLoadHandler);
+            sessionIframe.addEventListener('error', onErrorHandler);
             sessionIframe.src = url;
             return () => {
                 sessionIframe.removeEventListener('load', onLoadHandler);
-                sessionIframe.removeEventListener('error', onLoadHandler);
+                sessionIframe.removeEventListener('error', onErrorHandler);
             };
         });
     }
